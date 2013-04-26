@@ -1,0 +1,67 @@
+/*
+
+def authSite = new groovyx.net.http.HTTPBuilder( 'http://localhost:8080' )
+authSite.auth.basic API_KEY, API_SECRET
+
+secrets = authSite.get( path:'/status')
+println secrets
+
+*/
+
+
+import java.io.*
+import groovyx.net.http.HTTPBuilder
+import groovyx.net.http.EncoderRegistry
+import static groovyx.net.http.Method.*
+import static groovyx.net.http.ContentType.*
+
+buildscript {
+    repositories {
+        mavenCentral()
+        mavenRepo url: "http://repository.codehaus.org"
+    }
+    dependencies {
+       classpath 'org.codehaus.groovy.modules.http-builder:http-builder:0.6'
+    }
+}
+
+
+def API_KEY = 'APIENR789'
+def API_SECRET = 'uumesecret1'
+
+task downloadJslibs << {
+    def http = new HTTPBuilder('http://localhost:8080')
+    http.handler.failure = { resp ->
+      println "Unexpected failure: ${resp.statusLine}"
+    }
+
+    // proxy settings
+    def (host, port) = [System.properties.'http.proxyHost', System.properties.'http.proxyPort']
+    if(host)  http.setProxy(host, port as int, "http")
+
+    def target = 'src/main/webapp/js/libs'
+    def contents = [
+        "/status": "OK.txt",
+        "/dl/new/file.txt": "NEW-FILE.txt",
+        //"jquery.validate/1.9/jquery.validate.min.js": "jquery.validate.js",
+    ]
+
+    def dest = mkdir(target)
+    //http.auth.basic API_KEY, API_SECRET
+    contents.each() {
+        //http.auth.basic API_KEY, API_SECRET
+        //def response = http.get( path:it.key)
+        //println "${response}.statusLine   saving downloaded file[${it.value}] ..."
+        //new File(dest, it.value).setText(reader.text, "UTF-8")
+
+        http.request(GET, TEXT) {  req ->
+            uri.path= it.key
+            headers.authorization = "${API_KEY}:${API_SECRET}".getBytes().encodeBase64().toString()
+            response.success = { resp, reader ->
+                println "$resp.statusLine   saving downloaded file[$it.value] ..."
+                new File(dest, it.value).setText(reader.text, "UTF-8")
+            }
+        }
+
+    }
+}

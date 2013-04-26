@@ -1,0 +1,10 @@
+{ 
+  "users": {
+    "admin": {"password":"adminadmin"},
+    "robot": {"password":"robotrobot"}
+  },
+  "api": {
+    "APIADM123": {"user":"admin", "secret":"apisecretadmin"},
+    "APIBOT345": {"user":"robot", "secret":"apisecretrobot"}
+  }
+}

@@ -1,0 +1,22 @@
+{ 
+  "http": {
+    "port":8080
+  },
+  "https": {
+    "enabled":false,
+    "port":4443,
+    "keystore": {"path":"data/keystore.jks", "password": "password"}
+  },
+  "downloads": {
+    "enabled":true,
+    "path":"dl",
+    "secure_only":true
+  },
+  "auth": {
+    "enabled":true,
+    "mode":"basic"
+  },
+  "data": {
+    "users":"data/users.json"
+  }
+}
