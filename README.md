@@ -89,7 +89,8 @@ In production, probably, you want customize something...
 
 To generate key:
 
-    keytool -genkey -keyalg RSA -alias selfsigned -keystore data/keystore.jks -storepass agoodpassword -validity 360 -keysize 2048
+    keytool -genkey -keyalg RSA -alias selfsigned -keystore data/keystore.jks \
+    -storepass agoodpassword -validity 360 -keysize 2048
 
 Your application could run in an environment accepting http *and* https requests; you can configure Depository to accept only https for downloads
 disabling https (so app will start using http) and using `downloads.secure_only` in `app.json`.
