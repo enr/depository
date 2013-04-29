@@ -3,7 +3,7 @@
     "port":8080
   },
   "https": {
-    "enabled":true,
+    "enabled":false,
     "port":4443,
     "keystore": {"path":"data/keystore.jks", "password": "password"}
   },
